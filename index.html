@@ -1,16 +1,42 @@
 <!doctype html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <title>hello-wasm example</title>
-  </head>
-  <body>
-    <script type="module">
-      import init, { hello } from "./pkg/trip_gigo.js";
-      init().then(() => {
-        hello("WebAssembly");
-        console.log("ok")
-      });
-    </script>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>TripGigo</title>
+</head>
+
+<body>
+  <h1>TripGigo</h1>
+  <form id="tf">
+    <input id="trip" type="text" placeholder="Trip" />
+    <input type="submit" value="Submit" />
+    <button onclick="stop()">Stop</button>
+  </form>
+  <p id="result"></p>
+  <script type="module">
+    function submit() {
+      const trip = document.getElementById("trip").value;
+      trip_search(trip);
+    }
+    function found(trip, key) {
+      const result = document.getElementById("result");
+      result.innerHTML = `Found ♦${trip} at #${key}(00)`;
+    }
+    globalThis.found = found;
+    const tf = document.getElementById("tf");
+    tf.addEventListener("submit", function (e) {
+      e.preventDefault();
+      trip_search(document.getElementById("trip").value);
+    })
+    import init, { trip_search, stop, init_panic_hook } from "./pkg/trip_gigo.js";
+    init().then(() => {
+      init_panic_hook();
+      globalThis.trip_search = trip_search;
+
+      console.log("ok")
+    });
+  </script>
+</body>
+
 </html>
