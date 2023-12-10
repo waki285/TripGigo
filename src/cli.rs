@@ -41,6 +41,7 @@ fn main() {
                 if *h {
                     break;
                 }
+                drop(h);
                 if i == 0 {
                     i = 1;
                     key = randobet(2, Some("./"));
