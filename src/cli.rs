@@ -28,7 +28,7 @@ fn main() {
 
     let stop_flag = Arc::new(RwLock::new(false));
 
-    for _ in 0..threads {
+    for t in 0..threads {
         let word = word.clone();
         let word = word.trim();
         let word = word.to_string();
@@ -73,7 +73,7 @@ fn main() {
                 }
                 println!(
                     "{}",
-                    format!("Tested {}. But failed with {}", final_key, trip)
+                    format!("[{}] Tested {}. But failed with {}", t, final_key, trip)
                 );
 
                 i += 1;
